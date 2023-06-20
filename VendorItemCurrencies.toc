@@ -1,0 +1,14 @@
+## Interface: 100100
+## Title: |cff8332a8Vendor Item Currencies|r
+## Notes: Displays item currency costs beside vendor frames.
+## Author: Ghostopheles
+## Version: 1
+
+## IconTexture: Interface\Buttons\UI-GroupLoot-Coin-Up
+
+## X-Website: https://kivatech.io
+## X-Twitter: @Ghostopheles
+
+VendorItemCurrencies.lua
+MerchantData.lua
+CurrencyFrame.lua
