@@ -1,0 +1,5 @@
+package-as: VendorItemCurrencies
+
+ignore:
+  - README.md
+  - LICENSE
