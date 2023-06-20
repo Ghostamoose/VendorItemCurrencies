@@ -51,9 +51,6 @@ function CurrencyButtonMixin:SetCurrencyItemLink(itemLink)
     self.LinkedItem:ContinueOnItemLoad(function()
         local itemName = self.LinkedItem:GetItemName();
         self.Label:SetText(itemName);
-        if VendorCurrencyFrame:IsShown() then
-            self:Show();
-        end
     end);
 end
 
@@ -117,6 +114,7 @@ function VendorCurrencyFrame:Init()
     self.currencyButtons = {};
     self.currencyButtonsPool = CreateObjectPool(CreateCurrencyButton, ResetCurrencyButton);
     self.lastButtonAdded = nil;
+    self.NoItemCurrencies = false;
 
     self:SetParent(MerchantFrame);
     self:SetPoint("TOPLEFT", MerchantFrame, "TOPRIGHT", 0, 0);
@@ -220,6 +218,7 @@ function VendorCurrencyFrame:OnShow()
 
     if not allCurrencies then
         self:Hide(); -- no special currencies, or something went terribly wrong
+        self.NoItemCurrencies = true;
         return;
     end
 
@@ -228,6 +227,8 @@ function VendorCurrencyFrame:OnShow()
             self:AddCurrencyFromItemLink(currency.link);
         end
     end
+
+    self.NoItemCurrencies = false;
 
     -- TODO: Support generic currencies (allCurrencies.generic)
 
@@ -268,6 +269,10 @@ function VendorCurrencyFrame:SetupScrollFrame()
 end
 
 local function CreateOrShowFrameToggleButton()
+    if VendorCurrencyFrame.NoItemCurrencies == true then
+        return;
+    end
+
     if VendorCurrencyFrameToggleButton then
         VendorCurrencyFrameToggleButton:Show();
         return;
@@ -319,5 +324,7 @@ end)
 
 MerchantFrame:HookScript("OnHide", function()
     VendorCurrencyFrame:OnHide();
-    VendorCurrencyFrameToggleButton:Hide();
+    if VendorCurrencyFrameToggleButton then
+        VendorCurrencyFrameToggleButton:Hide();
+    end
 end)
