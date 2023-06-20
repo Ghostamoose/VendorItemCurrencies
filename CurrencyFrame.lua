@@ -51,6 +51,9 @@ function CurrencyButtonMixin:SetCurrencyItemLink(itemLink)
     self.LinkedItem:ContinueOnItemLoad(function()
         local itemName = self.LinkedItem:GetItemName();
         self.Label:SetText(itemName);
+        if VendorCurrencyFrame:IsShown() then
+            self:Show();
+        end
     end);
 end
 
@@ -106,7 +109,7 @@ function VendorCurrencyFrame:Init()
 
     self:RegisterEvent("BAG_UPDATE")
     self:SetScript("OnEvent", function(_, event, ...)
-        if event == "BAG_UPDATE" then
+        if event == "BAG_UPDATE" and self:IsShown() then
             self:UpdateAllOwnedItems();
         end
     end);
@@ -124,6 +127,10 @@ function VendorCurrencyFrame:Init()
     securecallfunction(ButtonFrameTemplate_HidePortrait, self);
     securecallfunction(ButtonFrameTemplate_HideButtonBar, self);
     securecallfunction(ButtonFrameTemplate_HideAttic, self);
+
+    self.CloseButton:HookScript("OnClick", function()
+        self:OnHide();
+    end);
 
     self:SetupScrollFrame();
     self.Initialized = true;
@@ -202,7 +209,6 @@ function VendorCurrencyFrame:ShowAllItemButtons()
         button:Show();
     end
     self:SortItemButtons();
-    self:UpdateFrameHeight();
 end
 
 function VendorCurrencyFrame:OnShow()
@@ -228,8 +234,9 @@ function VendorCurrencyFrame:OnShow()
     self.OwnedItems = VendorCurrency_API.GetItemLocationsForOwnedItems(self.currencyButtons);
 
     self:UpdateAllOwnedItems();
-    self:Show();
     self:ShowAllItemButtons();
+    self:UpdateFrameHeight();
+    self:Show();
 end
 
 function VendorCurrencyFrame:OnHide()
