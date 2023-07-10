@@ -16,3 +16,8 @@ function VendorCurrency_API.GetItemLocationsForOwnedItems(currencyButtons)
     end)
     return ownedItemButtons;
 end
+
+---@return table
+function VendorCurrency_API.GetMerchantFrame()
+    return MerchantFrame;
+end

@@ -48,15 +48,12 @@ function CurrencyButtonMixin:SetCurrencyItemLink(itemLink)
     local parentKey = self.LinkedItem:GetItemName():gsub(" ", "");
     self:SetParentKey(parentKey);
 
-    self.LinkedItem:ContinueOnItemLoad(function()
-        local itemName = self.LinkedItem:GetItemName();
-        self.Label:SetText(itemName);
-    end);
+    self.Label:SetText(self.LinkedItem:GetItemName());
 end
 
 function CurrencyButtonMixin:UpdateLabelWithOwnedQuanity()
     if self.LinkedItem:HasItemLocation() then
-        local stack = C_Item.GetStackCount(self.LinkedItem:GetItemLocation());
+        local stack = GetItemCount(self.LinkedItem:GetItemName());
         if stack > 0 then
             self.Label:SetText(self.LinkedItem:GetItemName() .. "\n(In Bags: " .. stack .. ")");
         else
@@ -100,6 +97,7 @@ end
 -- Vendor Currency Frame
 
 function VendorCurrencyFrame:Init()
+    local MerchantFrame = VendorCurrency_API.GetMerchantFrame();
     if not MerchantFrame then
         return;
     end
@@ -192,7 +190,7 @@ function VendorCurrencyFrame:UpdateFrameHeight()
     local lineHeight = 30;
     local lineMargin = 5;
     local minHeight = 225;
-    local maxHeight = MerchantFrame:GetHeight();
+    local maxHeight = VendorCurrency_API.GetMerchantFrame():GetHeight();
 
     targetHeight = (self.currencyButtonsPool:GetNumActive()) * (lineHeight + lineMargin);
     local height = min(maxHeight, max(minHeight, targetHeight));
@@ -203,10 +201,19 @@ function VendorCurrencyFrame:UpdateFrameHeight()
 end
 
 function VendorCurrencyFrame:ShowAllItemButtons()
-    for _, button in pairs(self.currencyButtons) do
-        button:Show();
-    end
     self:SortItemButtons();
+    for _, button in pairs(self.currencyButtons) do
+        if not button.LinkedItem:IsItemDataCached() then
+            button.LinkedItem:ContinueOnItemLoad(function()
+                button:UpdateLabelWithOwnedQuanity();
+                if VendorCurrencyFrame:IsShown() then
+                    button:Show();
+                end
+            end);
+        else
+            button:Show();
+        end
+    end
 end
 
 function VendorCurrencyFrame:OnShow()
@@ -318,9 +325,11 @@ end
 -- Hook Merchant Frame
 
 MerchantFrame:HookScript("OnShow", function()
-    VendorCurrencyFrame:OnShow();
-    CreateOrShowFrameToggleButton();
-end)
+    C_Timer.After(0, function()
+        VendorCurrencyFrame:OnShow();
+        CreateOrShowFrameToggleButton();
+    end)
+end);
 
 MerchantFrame:HookScript("OnHide", function()
     VendorCurrencyFrame:OnHide();
