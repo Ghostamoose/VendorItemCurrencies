@@ -1,6 +1,6 @@
-## Interface: 100105
+## Interface: 100207, 110000
 ## Title: |cff8332a8Vendor Item Currencies|r
-## Notes: Displays item currency costs beside vendor frames.
+## Notes: Displays item currency costs beside vendor frames
 ## Author: Ghostopheles
 ## Version: @project-version@
 
@@ -11,9 +11,10 @@
 ## X-Curse-Project-ID: 877659
 ## X-Wago-ID: n6VPL3Gd
 
-## X-Website: https://kivatech.io
+## X-Website: https://github.ghst.tools/
 ## X-Twitter: @Ghostopheles
 
 VendorItemCurrencies.lua
 MerchantData.lua
-CurrencyFrame.lua
+
+Templates/CurrencyFrame.xml

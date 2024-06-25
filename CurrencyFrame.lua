@@ -267,7 +267,7 @@ function VendorCurrencyFrame:SetupScrollFrame()
     self.ScrollFrame.ScrollBar:SetHideIfUnscrollable(true);
     self.ScrollFrame.ScrollBar:Update();
 
-    self.ScrollFrame.ScrollChild = CreateFrame("Frame", nil, self.ScrollFrame)
+    self.ScrollFrame.ScrollChild = CreateFrame("Frame", nil, self.ScrollFrame);
     self.ScrollFrame.ScrollChild:SetWidth(self.Inset:GetWidth());
 
     self.ScrollFrame:SetScrollChild(self.ScrollFrame.ScrollChild);
