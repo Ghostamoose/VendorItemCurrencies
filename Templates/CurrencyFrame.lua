@@ -155,6 +155,10 @@ function VI_ItemCurrencyListFrameMixin:OnHide()
     if MerchantFrame:IsShown() then
         VI_FrameToggleButton:SetMaximizeTextures();
     end
+
+    self.ScrollView:Flush();
+    self.DataProvider = CreateDataProvider();
+    self.ScrollView:SetDataProvider(self.DataProvider);
 end
 
 function VI_ItemCurrencyListFrameMixin:AddItem(itemLink)
