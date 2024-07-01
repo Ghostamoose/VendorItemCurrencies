@@ -42,7 +42,7 @@
     </Button>
 
     <Frame name="VI_ItemCurrencyListFrame" mixin="VI_ItemCurrencyListFrameMixin"
-        inherits="PortraitFrameTemplate" parent="MerchantFrame">
+        inherits="PortraitFrameFlatTemplate" parent="MerchantFrame">
         <Size x="250" y="250" />
         <Anchors>
             <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="8" />
