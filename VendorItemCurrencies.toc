@@ -1,4 +1,4 @@
-## Interface: 110000
+## Interface: 110005
 ## Title: |cff8332a8Vendor Item Currencies|r
 ## Notes: Displays item currency costs beside vendor frames
 ## Author: Ghostopheles
